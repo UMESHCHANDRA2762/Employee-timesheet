@@ -1,0 +1,63 @@
+/* --- Idle Time Styles --- */
+.idle-time-bar {
+  position: absolute;
+  left: 0;
+  background-color: rgba(220, 53, 69, 0.25); /* Light red overlay */
+  border-left: 5px solid #dc3545; /* Darker red bar */
+  z-index: 2; /* Sit on top of the project row */
+  border-radius: 8px;
+}
+
+.idle-details-section {
+    grid-column: 2;
+    grid-row: 3; /* Position below the main timeline area */
+    margin-top: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.total-idle-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.total-idle-display .label {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.total-idle-display .value {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.idle-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 0;
+}
+
+.idle-card-project .project-name {
+    font-weight: 600;
+}
+
+.idle-card-project .task-name {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.idle-card-time .label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.idle-card-time .value {
+    font-weight: 500;
+}

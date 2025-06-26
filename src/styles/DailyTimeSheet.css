@@ -1,0 +1,145 @@
+/* --- Existing Styles --- */
+.custom-select-style {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  min-height: 40px;
+  position: relative;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: rgb(31, 41, 57);
+  font-size: 13px;
+  border: 1px solid rgb(228, 231, 235);
+  background: rgb(255, 255, 255);
+  width: 100%;
+  outline: 0px !important;
+  padding: 0 10px;
+}
+
+.add-member-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed rgb(156, 163, 175);
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* --- UPDATED Vertical Timeline Styles --- */
+
+.timeline-grid {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr; /* Time axis | Content Area | Spacer */
+    margin-top: 1rem;
+}
+
+.timeline-header {
+    grid-column: 2; /* Sits in the content area column */
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding-left: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.timeline-header > div {
+    padding: 0.5rem 0;
+    text-align: center; /* Center all header text */
+}
+
+.timeline-header > div:first-child {
+    text-align: left; /* Align first header back to the left */
+}
+
+.vertical-time-axis {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  padding-right: 1.5rem;
+  color: #6c757d;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.time-slot {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  min-height: 50px; /* Crucial for pixel-based calculations */
+}
+
+.time-slot::after {
+  content: '';
+  position: absolute;
+  right: -1rem;
+  top: 0;
+  width: 8px;
+  height: 1px;
+  background-color: #dee2e6;
+}
+
+.vertical-entries-area {
+  grid-column: 2; /* Ensures this stays in the second column */
+  grid-row: 2;
+  position: relative;
+  border-left: 1px solid #dee2e6;
+}
+
+.time-entry-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  padding-left: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden; 
+}
+
+/* Assign the background color and the new left border */
+.project-blue {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-left: 5px solid #0d6efd; /* The new thick color bar */
+}
+.project-green {
+    background-color: rgba(25, 135, 84, 0.1);
+    border-left: 5px solid #198754; /* The new thick color bar */
+}
+
+.entry-details,
+.entry-time,
+.entry-total {
+    padding: 0.75rem 0;
+}
+
+.entry-time,
+.entry-total {
+    text-align: center; /* Center the time text */
+}
+
+
+
+.entry-details .project-name {
+  font-weight: 600;
+}
+
+.entry-details .task-name {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
