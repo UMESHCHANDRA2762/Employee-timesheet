@@ -1,0 +1,206 @@
+.weekly-timesheet-container {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    overflow: auto;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.timesheet-grid-wrapper {
+    width: 100%;
+    overflow: auto;
+    max-height: 70vh;
+    background-color: #ffffff;
+    border: 1px solid #E4E7EC; 
+    border-radius: 16px;
+    padding-right: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.timesheet-grid {
+    display: grid;
+    grid-template-columns: 220px repeat(7, 1fr) 150px;
+    min-width: 1000px;
+    font-size: 14px;
+    color: #1D2939; 
+}
+
+.grid-header-cell,
+.grid-cell {
+    padding: 12px 16px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.grid-header-cell {
+    border: none;
+    font-weight: 600;
+    color: #475467; 
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.weekday-header,
+.grid-header-cell.last-col,
+.grid-header-cell.first-col {
+    border-bottom: 1px solid #E4E7EC; 
+}
+
+.member-cell {
+    justify-content: flex-start;
+    font-weight: 600;
+    border-right: 1px solid #E4E7EC; 
+}
+
+.sticky-col {
+    position: sticky;
+    z-index: 5;
+    background-color: #ffffff;
+}
+.first-col { left: 0; }
+.last-col { right: 0; }
+
+.grid-header-cell.sticky-col {
+    z-index: 10;
+    background-color: #ffffff;
+}
+.grid-header-cell.sticky-col.first-col {
+    border-bottom: 0;
+}
+
+.time-cell,
+.total-cell {
+    border-bottom: 1px solid #F2F4F7;
+    min-height: 60px;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+.time-cell {
+    border-right: 1px solid #F2F4F7;
+}
+
+.total-cell {
+    border-left: 1px solid #F2F4F7;
+    border-right: 1px solid #E4E7EC;
+}
+
+.timesheet-grid:hover .member-cell:hover,
+.timesheet-grid:hover .member-cell:hover ~ .grid-cell {
+    background-color: #f9fafb;
+}
+
+.timesheet-grid:hover .member-cell.sticky-col:hover,
+.timesheet-grid:hover .member-cell.sticky-col:hover ~ .total-cell.sticky-col {
+    background-color: #f9fafb;
+}
+
+.date-box, .grand-total-box {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #E4E7EC;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    background: #f9fafb;
+    color: #475467;
+    margin-top: 5px;
+}
+
+.grand-total-box {
+    width: 78px;
+    height: 36px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #3542B2; 
+    background: #F0F5FF; 
+}
+
+.member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.worked-time {
+    font-weight: 600; 
+    color: #1D2939;
+}
+
+.total-cell .worked-time {
+    background-color: #F0F5FF; 
+    color: #3542B2; 
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.idle-time {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .weekly-timesheet-container {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .timesheet-grid-wrapper {
+        display: none;
+    }
+
+    .mobile-summary-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .mobile-member-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #E4E7EC;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .mobile-member-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+    }
+
+    .mobile-member-total {
+        text-align: right;
+    }
+
+    .mobile-member-total .worked-time-tag {
+        background-color: #F0F5FF;
+        color: #3542B2;
+        font-weight: 600;
+        font-size: 13.5px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        display: inline-block;
+    }
+    
+    .mobile-member-total .total-label {
+        display: block;
+        font-size: 0.75rem;
+        color: #667085;
+        margin-top: 4px;
+    }
+}

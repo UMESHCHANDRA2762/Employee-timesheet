@@ -1,6 +1,5 @@
 {
   "homepage": "https://UMESHCHANDRA2762.github.io/Employee-timesheet",
-
   "name": "timesheet",
   "private": true,
   "version": "0.0.0",
@@ -18,8 +17,10 @@
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "react": "^19.1.0",
+    "react-datepicker": "^8.4.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^7.6.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

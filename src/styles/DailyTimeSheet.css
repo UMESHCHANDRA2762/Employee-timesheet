@@ -1,125 +1,179 @@
-/* --- Existing Styles --- */
+/* --- General Styles & Filter Controls --- */
 .custom-select-style {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  min-height: 40px;
-  position: relative;
-  border-radius: 6px;
-  box-sizing: border-box;
-  color: rgb(31, 41, 57);
-  font-size: 13px;
-  border: 1px solid rgb(228, 231, 235);
-  background: rgb(255, 255, 255);
-  width: 100%;
-  outline: 0px !important;
-  padding: 0 10px;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    min-height: 31px; 
+    position: relative;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: rgb(31, 41, 57);
+    font-size: 0.875rem;
+    border: 1px solid rgb(209, 213, 219);
+    background: rgb(255, 255, 255);
+    width: 100%;
+    outline: 0px !important;
+    padding: 0.25rem 0.5rem;
+    min-width: 180px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 30px !important;
+}
+
+.select-wrapper {
+    display: grid;
+    align-items: center;
+}
+
+.custom-select-style,
+.select-dropdown-icon {
+    grid-area: 1 / 1;
+}
+
+.select-dropdown-icon {
+    justify-self: end;
+    margin-right: 10px;
+    pointer-events: none;
+    color: #6c757d;
+    height: 16px;
+    width: 16px;
 }
 
 .add-member-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px dashed rgb(156, 163, 175);
-  background-color: #f9fafb;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: 1px dashed rgb(156, 163, 175);
+    background-color: #f9fafb;
+    cursor: pointer;
 }
 
 .user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-/* --- UPDATED Vertical Timeline Styles --- */
+.date-picker-container {
+    position: relative;
+}
 
+.date-picker-container .react-datepicker-wrapper {
+    width: 100%;
+}
+
+.date-picker-container .form-control-sm {
+    padding-right: 30px !important;
+}
+
+.date-picker-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6c757d;
+}
+
+.date-picker-wrapper {
+    max-width: 180px;
+    flex-grow: 0 !important;
+}
+
+
+/* --- Vertical Timeline Styles --- */
 .timeline-grid {
     display: grid;
-    grid-template-columns: auto 1fr 1fr; /* Time axis | Content Area | Spacer */
+    grid-template-columns: auto 1fr 300px;
     margin-top: 1rem;
+    gap: 1.5rem;
 }
 
 .timeline-header {
-    grid-column: 2; /* Sits in the content area column */
+    grid-column: 2;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    /* FIXED: Adjusted column widths for a more balanced layout */
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
     padding-left: 1.5rem;
     border-bottom: 1px solid #dee2e6;
     font-weight: 600;
     color: #6c757d;
+    font-size: 0.875rem;
 }
 
 .timeline-header > div {
     padding: 0.5rem 0;
-    text-align: center; /* Center all header text */
+    text-align: center;
 }
 
 .timeline-header > div:first-child {
-    text-align: left; /* Align first header back to the left */
+    text-align: left;
 }
 
 .vertical-time-axis {
-  grid-column: 1;
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  padding-right: 1.5rem;
-  color: #6c757d;
-  font-size: 0.8rem;
-  text-align: right;
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    padding-right: 1rem;
+    color: #6c757d;
+    font-size: 0.8rem;
+    text-align: right;
 }
 
 .time-slot {
-  flex-grow: 1;
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  min-height: 50px; /* Crucial for pixel-based calculations */
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-height: 50px;
 }
 
 .time-slot::after {
-  content: '';
-  position: absolute;
-  right: -1rem;
-  top: 0;
-  width: 8px;
-  height: 1px;
-  background-color: #dee2e6;
+    content: '';
+    position: absolute;
+    right: -1rem;
+    top: 0;
+    width: 8px;
+    height: 1px;
+    background-color: #dee2e6;
 }
 
 .vertical-entries-area {
-  grid-column: 2; /* Ensures this stays in the second column */
-  grid-row: 2;
-  position: relative;
-  border-left: 1px solid #dee2e6;
+    grid-column: 2;
+    grid-row: 2;
+    position: relative;
+    border-left: 1px solid #dee2e6;
 }
 
 .time-entry-row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  align-items: center;
-  padding-left: 1.5rem;
-  border-radius: 8px;
-  overflow: hidden; 
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: grid;
+    /* FIXED: Adjusted column widths for a more balanced layout */
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.9rem;
 }
 
-/* Assign the background color and the new left border */
 .project-blue {
     background-color: rgba(13, 110, 253, 0.1);
-    border-left: 5px solid #0d6efd; /* The new thick color bar */
+    border-left: 5px solid #0d6efd;
 }
 .project-green {
     background-color: rgba(25, 135, 84, 0.1);
-    border-left: 5px solid #198754; /* The new thick color bar */
+    border-left: 5px solid #198754;
 }
 
 .entry-details,
@@ -130,16 +184,162 @@
 
 .entry-time,
 .entry-total {
-    text-align: center; /* Center the time text */
+    text-align: center;
 }
 
-
-
 .entry-details .project-name {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .entry-details .task-name {
-  font-size: 0.85rem;
-  color: #6c757d;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.idle-time-bar {
+    position: absolute;
+    left: 5px;
+    right: 0;
+    background-color: rgba(220, 53, 69, 0.3);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+/* --- Idle Details Section --- */
+.idle-details-section {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.total-idle-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    margin-bottom: 1rem;
+}
+.total-idle-display .label {
+    font-weight: 600;
+}
+.total-idle-display .value {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.idle-card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+.idle-card-project {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.idle-card-time {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+.idle-card-time .label {
+    color: #6c757d;
+}
+.idle-card-time .value {
+    font-weight: 600;
+}
+
+
+/******************************************************
+ * RESPONSIVE STYLES
+ ******************************************************/
+
+/* --- Tablet (Medium Screens) --- */
+@media (max-width: 992px) {
+    .card-body > div[style*="grid"] {
+        grid-template-columns: 1fr 1fr !important;
+        row-gap: 1.5rem !important;
+    }
+    
+    .timeline-grid {
+        grid-template-columns: auto 1fr;
+    }
+    .idle-details-section {
+        grid-column: 1 / span 2;
+        grid-row: 3;
+        margin-top: 2rem;
+    }
+}
+
+
+/* --- Mobile (Small Screens) --- */
+@media (max-width: 767px) {
+    .card-body > div[style*="grid"] {
+        grid-template-columns: 1fr !important;
+        justify-items: start !important;
+    }
+    
+    .timeline-header,
+    .vertical-time-axis,
+    .idle-time-bar {
+        display: none;
+    }
+
+    .timeline-grid {
+        display: block;
+    }
+
+    .vertical-entries-area {
+        border-left: none;
+        position: static;
+    }
+
+    .time-entry-row {
+        position: static !important;
+        height: auto !important;
+        top: auto !important;
+        
+        display: flex;
+        flex-direction: column;
+        
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+    }
+
+    .entry-details,
+    .entry-time,
+    .entry-total {
+        padding: 0;
+        text-align: left;
+    }
+
+    .entry-details {
+        margin-bottom: 0.75rem;
+    }
+    .entry-time, .entry-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.25rem 0;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    .entry-time::before,
+    .entry-total::before {
+        font-weight: 600;
+        color: #6c757d;
+    }
+    .entry-time:nth-of-type(1)::before {
+        content: "Start:";
+    }
+    .entry-time:nth-of-type(2)::before {
+        content: "End:";
+    }
+    .entry-total::before {
+        content: "Total:";
+    }
 }
