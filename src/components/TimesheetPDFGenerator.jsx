@@ -2,8 +2,7 @@ import React, { useState, useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/DailyTimesheet.css";
 import "../styles/IdleTime.css";
-import TimesheetPDFGenerator from "./TimesheetPDFGenerator"; // Import the new component
-
+import TimesheetPDFGenerator from "./TimesheetPDFGenerator";
 const membersData = [
     {
         id: 1,

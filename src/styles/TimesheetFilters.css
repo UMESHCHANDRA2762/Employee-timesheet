@@ -1,0 +1,139 @@
+.filter-label {
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.custom-select-style {
+  min-height: 40px;
+  font-size: 0.9rem;
+  border-color: #dee2e6;
+  background-color: #fff;
+  padding-right: 2.5rem !important;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* --- FIX: Removes the extra dropdown arrow from Bootstrap --- */
+  background-image: none !important;
+}
+
+.select-dropdown-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6c757d;
+}
+
+.add-member-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed #ced4da;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.add-member-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.member-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  width: 280px;
+  border-color: #dee2e6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.member-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.member-dropdown-item {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.member-search-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.member-search-icon {
+  color: #6c757d;
+  margin-right: 0.5rem;
+}
+
+.member-search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+  background-color: transparent;
+  padding: 0.5rem 0;
+}
+
+.custom-date-input {
+  text-align: left;
+  background-color: white !important;
+  height: 40px;
+  font-size: 0.9rem;
+  min-width: 160px;
+}
+
+.today-btn {
+  height: 40px;
+}
+
+.export-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  width: 100%;
+  padding: 0 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.export-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+}

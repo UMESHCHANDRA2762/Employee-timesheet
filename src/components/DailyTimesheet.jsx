@@ -1,235 +1,307 @@
-import React, { useState, useMemo } from "react";
-import jsPDF from "jspdf";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "react-datepicker/dist/react-datepicker.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/DailyTimesheet.css";
 import "../styles/IdleTime.css";
 
-// Import the reusable components and data
+import AddManualTimeModal from "./AddManualTimeModal";
+import IdleTimePopover from "./IdleTimePopover";
 import TimesheetFilters from "./TimesheetFilters";
-import { membersData, projectsData, tasksData, organizationsData } from "./data"; // Data is now imported
+import { membersData, projectsData, tasksData, organizationsData } from "./data";
+import TimesheetPDFGenerator from "./PdfGenerators/TimesheetPDFGenerator";
+import * as XLSX from 'xlsx';
 
-// Helper function to convert HH:MM time to total minutes
 const timeToMinutes = (time) => {
-  if (!time || !time.includes(':')) return 0;
-  const [hours, minutes] = time.split(':').map(Number);
-  return (hours * 60) + minutes;
+    if (!time || !time.includes(':')) return 0;
+    const [hours, minutes] = time.split(':').map(Number);
+    return (hours * 60) + minutes;
 };
 
-// Helper function to convert total minutes to "Xh Ym" format
-const minutesToHoursMinutes = (totalMinutes) => {
-  if (totalMinutes === 0) return "0";
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  let result = '';
-  if (hours > 0) result += `${hours}h `;
-  if (minutes > 0) result += `${minutes}m`;
-  return result.trim();
-};
-
-// Helper function to calculate the position and height of a time block
 const getBlockStyle = (startTime, endTime, startHour) => {
-  const slotHeight = 50; // Corresponds to the height of one hour in the timeline
-  const timelineStartMinutes = startHour * 60;
-  
-  const startMinutes = timeToMinutes(startTime);
-  const endMinutes = timeToMinutes(endTime);
-  
-  const startOffsetMinutes = startMinutes - timelineStartMinutes;
-  const top = (startOffsetMinutes / 60) * slotHeight;
-  
-  const durationMinutes = endMinutes - startMinutes;
-  const height = (durationMinutes / 60) * slotHeight;
-  
-  return { top: `${top}px`, height: `${height}px` };
+    const slotHeight = 50;
+    const timelineStartMinutes = startHour * 60;
+    const startMinutes = timeToMinutes(startTime);
+    const endMinutes = timeToMinutes(endTime);
+    const startOffsetMinutes = startMinutes - timelineStartMinutes;
+    const top = (startOffsetMinutes / 60) * slotHeight;
+    const durationMinutes = endMinutes - startMinutes;
+    const height = (durationMinutes / 60) * slotHeight;
+    return { top: `${top}px`, height: `${height}px` };
 };
 
 const DailyTimesheet = () => {
-  // State management for filters
-  const [selectedMemberId, setSelectedMemberId] = useState(1);
-  const [selectedProjectId, setSelectedProjectId] = useState("");
-  const [selectedTaskId, setSelectedTaskId] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date("2025-06-27"));
-  const [selectedOrganizationId, setSelectedOrganizationId] = useState("org-1");
+    const [selectedMemberId, setSelectedMemberId] = useState("");
+    const [selectedProjectId, setSelectedProjectId] = useState("");
+    const [selectedTaskId, setSelectedTaskId] = useState("");
+    const [selectedDate, setSelectedDate] = useState(new Date("2025-06-27"));
+    const [selectedOrganizationId, setSelectedOrganizationId] = useState("org-1");
+    const [showManualTimeModal, setShowManualTimeModal] = useState(false);
+    const [activeIdleInfo, setActiveIdleInfo] = useState(null);
+    const [isDownloadOpen, setDownloadOpen] = useState(false);
+    const downloadRef = useRef(null);
 
-  // Find the selected member from the imported data
-  const selectedMember = membersData.find(m => m.id === selectedMemberId);
+    useEffect(() => {
+        if (membersData && membersData.length > 0) {
+            setSelectedMemberId(membersData[0].id);
+        }
+    }, []);
 
-  // Memoized calculation to filter time entries based on selected filters
-  const timeEntries = useMemo(() => {
-    if (!selectedMember) return [];
-    
-    let entries = selectedMember.timeEntries;
-    
-    if (selectedProjectId) {
-      const selectedProject = projectsData.find(p => p.id === selectedProjectId);
-      if (selectedProject) {
-        entries = entries.filter(entry => entry.project === selectedProject.name);
-      }
+    const handleCloseModal = () => setShowManualTimeModal(false);
+    const handleShowModal = () => setShowManualTimeModal(true);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (downloadRef.current && !downloadRef.current.contains(event.target)) {
+                setDownloadOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleInfoIconClick = (e, idle, entry) => {
+        e.stopPropagation();
+        const rect = e.currentTarget.getBoundingClientRect();
+        const position = {
+            top: rect.top + window.scrollY + 25,
+            left: rect.left + window.scrollX - 300
+        };
+
+        if (activeIdleInfo && activeIdleInfo.idle.id === idle.id) {
+            setActiveIdleInfo(null);
+        } else {
+            setActiveIdleInfo({ idle, entry, position });
+        }
+    };
+
+    const selectedMember = membersData.find(m => m.id === selectedMemberId);
+    const displayDate = selectedDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+    const timeEntries = useMemo(() => {
+        if (!selectedMember) return [];
+        let entries = selectedMember.timeEntries || [];
+        if (selectedProjectId) {
+            const selectedProject = projectsData.find(p => p.id === selectedProjectId);
+            if (selectedProject) entries = entries.filter(entry => entry.project === selectedProject.name);
+        }
+        if (selectedTaskId) {
+            const selectedTask = tasksData.find(t => t.id === selectedTaskId);
+            if (selectedTask) entries = entries.filter(entry => entry.task === selectedTask.name);
+        }
+        return entries;
+    }, [selectedMember, selectedProjectId, selectedTaskId]);
+
+    const handleExcelExport = () => {
+        if (!selectedMember) return;
+
+        let totalMinutes = 0;
+        const dataToExport = timeEntries.map(entry => {
+            const timeParts = entry.total.match(/(\d+)\s*h\s*(\d+)\s*m/);
+            if (timeParts) {
+                totalMinutes += parseInt(timeParts[1], 10) * 60 + parseInt(timeParts[2], 10);
+            }
+            return {
+                'Project': entry.project,
+                'Task': entry.task,
+                'Start Time': entry.startTime,
+                'End Time': entry.endTime,
+                'Total Time': entry.total,
+            };
+        });
+
+        const totalHours = Math.floor(totalMinutes / 60);
+        const totalMins = totalMinutes % 60;
+        const formattedTotal = `${totalHours}h ${totalMins}m`;
+        const totalPay = ((totalMinutes / 60) * selectedMember.hourlyRate).toFixed(2);
+
+        dataToExport.push({}); 
+        dataToExport.push({ 'Project': 'Total Time', 'Total Time': formattedTotal });
+        dataToExport.push({ 'Project': 'Total Pay', 'Total Time': `$${totalPay}` });
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Daily Timesheet");
+        XLSX.writeFile(workbook, `Timesheet_${selectedMember.name.replace(/ /g, '_')}_${displayDate.replace(/\//g, '-')}.xlsx`);
+    };
+
+    const clockInOutTimes = useMemo(() => {
+        if (!timeEntries || timeEntries.length === 0) {
+            return { firstIn: '-', lastOut: '-' };
+        }
+        const firstIn = timeEntries.reduce((earliest, current) =>
+            timeToMinutes(current.startTime) < timeToMinutes(earliest) ? current.startTime : earliest,
+            timeEntries[0].startTime
+        );
+        const lastOut = timeEntries.reduce((latest, current) =>
+            timeToMinutes(current.endTime) > timeToMinutes(latest) ? current.endTime : latest,
+            timeEntries[0].endTime
+        );
+        return { firstIn, lastOut };
+    }, [timeEntries]);
+
+    const displayDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+    const startHour = 9;
+    const endHour = 22;
+
+    const timeLabels = Array.from({ length: (endHour - startHour) + 1 }, (_, i) => {
+        const hour = startHour + i;
+        if (hour === 12) return "12 PM";
+        if (hour > 12) return `${hour - 12} PM`;
+        return `${hour} AM`;
+    });
+
+    if (!selectedMember) {
+        return (
+            <div className="bg-light p-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="m-0">Daily Timesheet</h2>
+                </div>
+                <div className="p-5 text-center bg-white rounded shadow-sm">Loading member data...</div>
+            </div>
+        );
     }
-    
-    if (selectedTaskId) {
-      const selectedTask = tasksData.find(t => t.id === selectedTaskId);
-      if (selectedTask) {
-        entries = entries.filter(entry => entry.task === selectedTask.name);
-      }
-    }
-    
-    return entries;
-  }, [selectedMember, selectedProjectId, selectedTaskId]);
 
-  // Format date and day for display
-  const displayDate = selectedDate.toLocaleDateString('en-GB');
-  const displayDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-
-  // Timeline display parameters
-  const startHour = 9;
-  const endHour = 22;
-
-  // Generate time labels for the vertical axis
-  const timeLabels = Array.from({ length: (endHour - startHour) + 1 }, (_, i) => {
-    const hour = startHour + i;
-    if (hour === 12) return "12 PM";
-    if (hour > 12) return `${hour - 12} PM`;
-    return `${hour} AM`;
-  });
-
-  // Handler for PDF download
-  const handleDownloadPDF = () => {
-    if (!selectedMember) return;
-    const doc = new jsPDF();
-    // PDF generation logic would go here
-  };
-
-  if (!selectedMember) {
-    return <div>Select a member to view their timesheet.</div>;
-  }
-  
-  // Style object for the member card grid layout
-  const cardContentStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, auto)',
-    columnGap: '60px',
-    justifyContent: 'start',
-    alignItems: 'center',
-  };
-
-  return (
-    <div style={{ backgroundColor: '#f8f9fa', padding: '1.5rem' }}>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="m-0">Daily Timesheet</h2>
-        <div className="d-flex gap-2">
-          <button className="btn btn-outline-secondary" onClick={handleDownloadPDF}>Download PDF</button>
-          <button className="btn btn-primary">+ ADD manual Time</button>
-        </div>
-      </div>
-
-      <TimesheetFilters
-        projectsData={projectsData}
-        tasksData={tasksData}
-        membersData={membersData}
-        organizationsData={organizationsData}
-        selectedProjectId={selectedProjectId}
-        setSelectedProjectId={setSelectedProjectId}
-        selectedTaskId={selectedTaskId}
-        setSelectedTaskId={setSelectedTaskId}
-        selectedMemberId={selectedMemberId}
-        setSelectedMemberId={setSelectedMemberId}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        selectedOrganizationId={selectedOrganizationId}
-        setSelectedOrganizationId={setSelectedOrganizationId}
-      />
-      
-      {/* Member Details Card */}
-      {selectedMember && (
-        <div className="card mb-4">
-            <div className="card-body">
-                <div style={cardContentStyle}>
-                    {/* Grid Item 1: Avatar and Name */}
-                    <div className="d-flex align-items-center gap-3">
-                        <img src={`https://placehold.co/48x48/EBF4FF/76A9FA?text=${selectedMember.avatarInitials}`} alt={selectedMember.name} className="user-avatar" />
-                        <h5 className="mb-0">{selectedMember.name}</h5>
+    return (
+        <div className="bg-light p-4">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="m-0">Daily Timesheet</h2>
+                <div className="d-flex gap-2">
+                    <div className="dropdown" ref={downloadRef}>
+                        <button className="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" onClick={() => setDownloadOpen(prev => !prev)}>
+                            {/* --- THIS BUTTON IS NOW RESPONSIVE --- */}
+                            <span className="d-md-none"><i className="bi bi-download"></i></span>
+                            <span className="d-none d-md-inline">Download</span>
+                        </button>
+                        <ul className={`dropdown-menu dropdown-menu-end ${isDownloadOpen ? 'show' : ''}`}>
+                            <li>
+                                <TimesheetPDFGenerator
+                                    selectedMember={selectedMember}
+                                    timeEntries={timeEntries}
+                                    displayDate={displayDate}
+                                    clockInOutTimes={clockInOutTimes}
+                                    onDownload={() => setDownloadOpen(false)}
+                                />
+                            </li>
+                            <li>
+                                <a className="dropdown-item" href="#" onClick={(e) => { e.preventDefault(); handleExcelExport(); setDownloadOpen(false); }}>
+                                    <i className="bi bi-file-earmark-spreadsheet-fill me-2 text-success"></i>
+                                    Excel
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    
-                    {/* Grid Item 2: Date and Day */}
-                    <div>
-                        <div className="text-muted small">{displayDate}</div>
-                        <div className="text-muted" style={{fontSize: '0.75rem'}}>{displayDay}</div>
-                    </div>
+                    <button className="btn btn-primary btn-sm" onClick={handleShowModal}>
+                        <span className="d-md-none">+</span>
+                        <span className="d-none d-md-inline">+ Add Time</span>
+                    </button>
+                </div>
+            </div>
 
-                    {/* Grid Item 3: Total Time */}
-                    <div>
-                        <div className="fw-bold fs-5">{selectedMember.totalTime}</div>
-                        <div className="text-muted small">Total Time</div>
-                    </div>
+            <TimesheetFilters
+                viewMode="daily"
+                projectsData={projectsData}
+                tasksData={tasksData}
+                membersData={membersData}
+                organizationsData={organizationsData}
+                selectedProjectId={selectedProjectId}
+                setSelectedProjectId={setSelectedProjectId}
+                selectedTaskId={selectedTaskId}
+                setSelectedTaskId={setSelectedTaskId}
+                selectedMemberId={selectedMemberId}
+                setSelectedMemberId={setSelectedMemberId}
+                startDate={selectedDate}
+                setStartDate={setSelectedDate}
+                selectedOrganizationId={selectedOrganizationId}
+                setSelectedOrganizationId={setSelectedOrganizationId}
+            />
 
-                    {/* Grid Item 4: Clock In/Out */}
-                    <div>
-                        <div className="fw-bold fs-5 text-danger">{selectedMember.totalIdleTime}</div>
-                        <div className="text-muted small">Clock In/Out</div>
+            {selectedMember && (
+                <div className="card mb-4 member-details-card">
+                    <div className="card-body">
+                         <div className="member-card__content">
+                              <div className="member-card__profile">
+                                  <img src={selectedMember.avatarUrl} alt={selectedMember.name} className="user-avatar" />
+                                  <h5 className="mb-0 member-card__name">{selectedMember.name}</h5>
+                              </div>
+                              <div className="member-card__info-block">
+                                  <div className="member-card__value">{displayDate}</div>
+                                  <div className="member-card__label">{displayDay}</div>
+                              </div>
+                              <div className="member-card__info-block">
+                                  <div className="fw-bold member-card__value">
+                                      {clockInOutTimes.firstIn} - {clockInOutTimes.lastOut}
+                                  </div>
+                                  <div className="member-card__label">Clock In/Out</div>
+                              </div>
+                              <div className="member-card__info-block">
+                                  <div className="fw-bold member-card__value">{selectedMember.totalTime}</div>
+                                  <div className="member-card__label">Total Time</div>
+                              </div>
+                         </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="row mt-4 timeline-wrapper">
+                <div className="col-auto d-none d-md-block text-end pe-4 vertical-time-axis">
+                    {timeLabels.map(label => <div key={label} className="time-slot"><span>{label}</span></div>)}
+                </div>
+                <div className="col">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="row text-center d-none d-md-flex timeline-header small text-secondary fw-bold border-bottom mx-0">
+                                <div className="col-5 text-start">Project & Task</div>
+                                <div className="col">Start</div>
+                                <div className="col">End</div>
+                                <div className="col">Total</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="vertical-entries-area">
+                        {timeEntries && timeEntries.length > 0 ? (
+                            timeEntries.map(entry => (
+                                <React.Fragment key={entry.id}>
+                                    <div className={`time-entry-row ${entry.colorClass}`} style={getBlockStyle(entry.startTime, entry.endTime, startHour)}>
+                                        <div className="entry-details">
+                                            <div className="fw-bold project-name">{entry.project}</div>
+                                            <div className="text-secondary small task-name">{entry.task}</div>
+                                        </div>
+                                        <div className="entry-time">{entry.startTime}</div>
+                                        <div className="entry-time">{entry.endTime}</div>
+                                        <div className="entry-total">{entry.total}</div>
+                                        {entry.idleTimes && entry.idleTimes.length > 0 && (
+                                            <div className="info-icon" onClick={(e) => handleInfoIconClick(e, entry.idleTimes[0], entry)}>
+                                                <i className="bi bi-info-circle-fill"></i>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {(entry.idleTimes || []).map(idle => (
+                                        <div key={idle.id} className="idle-time-bar" style={getBlockStyle(idle.startTime, idle.endTime, startHour)}></div>
+                                    ))}
+                                </React.Fragment>
+                            ))
+                        ) : (
+                            <div className="d-flex align-items-center justify-content-center text-secondary" style={{height: '200px'}}>
+                                <p>No time entries logged for this day.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
+            {activeIdleInfo && (
+                <IdleTimePopover info={activeIdleInfo} onClose={() => setActiveIdleInfo(null)} />
+            )}
+            <AddManualTimeModal
+                show={showManualTimeModal}
+                handleClose={handleCloseModal}
+                members={membersData}
+                projects={projectsData}
+                tasks={tasksData}
+            />
         </div>
-      )}
-
-      {/* Vertical Timeline Grid */}
-      <div className="timeline-grid">
-        <div className="timeline-header">
-          <div>Project & Task</div><div>Start</div><div>End</div><div>Total</div>
-        </div>
-        <div className="vertical-time-axis">
-          {timeLabels.map(label => <div key={label} className="time-slot"><span>{label}</span></div>)}
-        </div>
-        <div className="vertical-entries-area">
-          {timeEntries.map(entry => (
-            <React.Fragment key={entry.id}>
-              <div className={`time-entry-row ${entry.colorClass}`} style={getBlockStyle(entry.startTime, entry.endTime, startHour)}>
-                <div className="entry-details"><div className="project-name">{entry.project}</div><div className="task-name">{entry.task}</div></div>
-                <div className="entry-time">{entry.startTime}</div>
-                <div className="entry-time">{entry.endTime}</div>
-                <div className="entry-total">{entry.total}</div>
-              </div>
-              {entry.idleTimes.map(idle => (
-                <div key={idle.id} className="idle-time-bar" style={getBlockStyle(idle.startTime, idle.endTime, startHour)}></div>
-              ))}
-            </React.Fragment>
-          ))}
-        </div>
-        <div className="idle-details-section">
-          <div className="total-idle-display">
-            <span className="label">Total Idle Time</span>
-            <span className="value text-danger">{selectedMember.totalIdleTime}</span>
-          </div>
-          {timeEntries.map(entry => (
-            <React.Fragment key={`idle-details-${entry.id}`}>
-              {entry.idleTimes.map(idle => (
-                <div key={`idle-card-${idle.id}`} className="idle-card">
-                  <div className="idle-card-project">
-                    <div className="project-name">{entry.project}</div>
-                    <div className="task-name">{entry.task}</div>
-                  </div>
-                  <div className="idle-card-time">
-                    <div className="label">Start Time</div>
-                    <div className="value">{idle.startTime}</div>
-                  </div>
-                  <div className="idle-card-time">
-                    <div className="label">End Time</div>
-                    <div className="value">{idle.endTime}</div>
-                  </div>
-                  <div className="idle-card-time">
-                    <div className="label">Total Idle Time</div>
-                    <div className="value">{idle.total}</div>
-                  </div>
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default DailyTimesheet;

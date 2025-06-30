@@ -1,0 +1,58 @@
+.date-range-text {
+  font-size: 14px;
+  color: rgb(61, 77, 105);
+}
+
+.total-hour-box {
+  background: rgb(236, 240, 252);
+  color: rgb(61, 77, 105);
+  font-size: 14px;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(115px, 1fr));
+}
+
+.week-row {
+  height: 125px;
+  align-items: center;
+  justify-items: center;
+}
+
+.week-day-header {
+  font-size: 13px;
+  color: rgba(61, 77, 105, 0.7);
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(246, 248, 249);
+  padding: 12px 5px;
+  height: 100%;
+}
+
+.time-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 90px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgb(32, 190, 173);
+}
+
+.day-hours {
+  color: rgb(61, 77, 105);
+}
+
+.total-hours {
+  color: rgb(255, 255, 255);
+}
+
+.day-date {
+  font-size: 13px;
+  color: rgba(61, 77, 105, 0.7);
+}

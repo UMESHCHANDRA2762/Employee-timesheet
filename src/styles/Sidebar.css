@@ -1,12 +1,11 @@
 .sidebar {
-  background: #fff !important;
-  color: #000 !important;
   font-family: 'Montserrat', sans-serif;
-  box-shadow: none;
-  border-right: 2px solid #000;
-  min-height: 100vh;
-  width: 260px;
   transition: box-shadow 0.24s;
+  background-clip: padding-box;
+}
+
+.sidebar.is-resizing {
+  user-select: none;
 }
 
 .sidebar-header h3 {
@@ -16,30 +15,80 @@
 
 .menu-button, .sub-menu-button {
   color: #000 !important;
-  background: none;
+  background-color: transparent;
   border: none;
   border-radius: 6px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  transition: background 0.18s, color 0.18s;
+  transition: background-color 0.18s, color 0.18s;
+  text-align: left;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.sub-menu-button {
+  font-size: 0.97rem;
+  padding-left: 1.5rem;
 }
 
 .menu-button:hover, .sub-menu-button:hover,
 .menu-button:focus, .sub-menu-button:focus {
-  background: #e5f6f6 !important;
+  background-color: #e5f6f6 !important;
   color: #32a8aa !important;
   outline: none;
 }
 
 .menu-button.active, .sub-menu-button.active {
-  background: #32a8aa !important;
+  background-color: #32a8aa !important;
   color: #fff !important;
 }
 
 .dropdown-icon {
   color: #32a8aa;
-  transition: transform 0.2s;
 }
-.dropdown-icon.open {
+
+.transition-transform {
+  transition: transform 0.2s ease-in-out;
+}
+
+.rotate-180 {
   transform: rotate(180deg);
+}
+
+.sidebar-dragger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  cursor: col-resize;
+  background: black;
+}
+
+.sidebar-toggle-btn {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.sidebar-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 280px !important; 
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
 }

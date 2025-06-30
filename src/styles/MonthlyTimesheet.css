@@ -1,0 +1,91 @@
+.total-hours-badge {
+  padding: 8px 16px;
+  background: rgb(236, 240, 252);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(61, 77, 105);
+}
+
+.btn-teal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgb(32, 190, 173) !important;
+  border: none !important;
+}
+
+.btn-teal:hover {
+  background-color: rgb(25, 158, 144) !important;
+}
+
+.monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.week-day-header {
+  font-size: 13px;
+  color: rgba(61, 77, 105, 0.7);
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(246, 248, 249);
+  text-transform: uppercase;
+  padding: 12px 5px;
+}
+
+.day-cell {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
+  padding: 8px;
+  min-height: 110px;
+}
+
+.day-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(61, 77, 105);
+  margin-bottom: 8px;
+}
+
+.day-hours {
+  height: 36px;
+  width: 90px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: rgb(61, 77, 105);
+  font-weight: 600;
+  background: rgb(236, 240, 252);
+}
+
+.day-cell--disabled .day-date {
+  color: rgba(61, 77, 105, 0.4);
+}
+
+.day-cell--total {
+  justify-content: center;
+  align-items: center;
+}
+
+.total-hours {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 90px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgb(32, 190, 173);
+  color: rgb(255, 255, 255);
+}
