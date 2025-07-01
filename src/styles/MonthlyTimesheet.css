@@ -41,8 +41,8 @@
 .day-cell {
   font-size: 14px;
   display: flex;
-  flex-direction: column; 
-  justify-content: center; 
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 8px;
   min-height: 110px;

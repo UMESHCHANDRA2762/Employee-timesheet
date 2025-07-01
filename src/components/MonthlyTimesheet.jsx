@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  format, addMonths, subMonths, startOfMonth, endOfMonth, 
+import {
+  format, addMonths, subMonths, startOfMonth, endOfMonth,
   startOfWeek, endOfWeek, addDays, getDate, getDaysInMonth
 } from 'date-fns';
 import * as XLSX from 'xlsx';
 
 import TimesheetFilters from './TimesheetFilters';
 import generateMonthlyPDF from './PdfGenerators/MonthlyTimesheetPDFGenerator';
-import AddManualTimeModal from './AddManualTimeModal'; 
+import AddManualTimeModal from './AddManualTimeModal';
 import { projectsData, tasksData, membersData, organizationsData } from './data';
 import '../styles/MonthlyTimesheet.css';
 
@@ -22,10 +22,10 @@ const MonthlyTimesheet = () => {
 
   const handleCloseModal = () => setShowManualTimeModal(false);
   const handleShowModal = () => setShowManualTimeModal(true);
-  
+
   const handlePrevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const handleNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
-  
+
   const handlePdfExport = () => {
     if (!selectedMemberData) {
       alert("Please select a member to export.");
@@ -39,24 +39,24 @@ const MonthlyTimesheet = () => {
       alert("No data available for the selected member to export.");
       return;
     }
-    
+
     const daysInMonth = getDaysInMonth(currentMonth);
     const dataForExcel = [];
-    
-    for(let i = 1; i <= daysInMonth; i++) {
-        const dateKey = format(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i), 'yyyy-MM-dd');
-        dataForExcel.push({
-            'Date': format(new Date(dateKey), 'dd-MM-yyyy'),
-            'Total Hours': monthlyData[dateKey] || '0h 0m'
-        });
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dateKey = format(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i), 'yyyy-MM-dd');
+      dataForExcel.push({
+        'Date': format(new Date(dateKey), 'dd-MM-yyyy'),
+        'Total Hours': monthlyData[dateKey] || '0h 0m'
+      });
     }
 
     const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Monthly Timesheet");
-    
+
     worksheet["!cols"] = [{ wch: 15 }, { wch: 15 }];
-    
+
     const fileName = `MonthlyTimesheet_${selectedMemberData.name.replace(' ', '_')}_${format(currentMonth, 'MMMM_yyyy')}.xlsx`;
     XLSX.writeFile(workbook, fileName);
   };
@@ -94,7 +94,7 @@ const MonthlyTimesheet = () => {
             grandTotalMinutes += m;
           }
         }
-        
+
         weekRow.push(
           <div key={formattedDate} className={`day-cell ${!isCurrentMonth ? 'day-cell--disabled' : ''}`}>
             <div className="day-date">{getDate(day)}</div>
@@ -110,13 +110,13 @@ const MonthlyTimesheet = () => {
 
       weekRow.push(
         <div key={`total-${day.toString()}`} className="day-cell day-cell--total">
-            <div className="total-hours">{weeklyTotal}</div>
+          <div className="total-hours">{weeklyTotal}</div>
         </div>
       );
 
       rows.push(<div className="monthly-grid week-row" key={day.toString()}>{weekRow}</div>);
     }
-    
+
     grandTotalHours += Math.floor(grandTotalMinutes / 60);
     grandTotalMinutes %= 60;
     const grandTotal = grandTotalHours > 0 || grandTotalMinutes > 0 ? `${grandTotalHours}h ${grandTotalMinutes}m` : "0h 0m";
@@ -129,10 +129,10 @@ const MonthlyTimesheet = () => {
         {rows}
       </div>
     );
-    
+
     return { calendar: calendarGrid, grandTotal: grandTotal };
   };
-  
+
   const { calendar, grandTotal } = renderCalendar();
 
   const ChevronLeftIcon = () => (
@@ -158,7 +158,7 @@ const MonthlyTimesheet = () => {
           </button>
         </div>
       </div>
-      
+
       <TimesheetFilters
         viewMode="monthly"
         projectsData={projectsData}
@@ -176,9 +176,10 @@ const MonthlyTimesheet = () => {
       <div className="card mt-4 border-0">
         <div className="p-4">
           <div className="d-flex justify-content-between align-items-center">
-            <div className="total-hours-display">
-              <span className="total-hours-display__label">Total Hour</span>
-              <span className="total-hours-display__value">{grandTotal}</span>
+            {/* CORRECTED CLASSNAME IS HERE */}
+            <div className="total-hours-badge">
+              <span>Total Hour: </span>
+              <span>{grandTotal}</span>
             </div>
 
             <div className="d-flex align-items-center gap-2">
