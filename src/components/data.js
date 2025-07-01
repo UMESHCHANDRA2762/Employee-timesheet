@@ -22,16 +22,12 @@ export const membersData = [
       { id: 102, project: 'Grasshopper', task: 'Planning on Falcon-9 Launch', startTime: '14:00', endTime: '17:30', total: '3h 30m', colorClass: 'project-green', idleTimes: [] }
     ],
     biWeeklyTimesheet: {
-      totalHours: "105 h 5 m",
-      week1: { total: "52 h 36 m", days: [ { date: "Jul 1", hours: "8 h 15 m" }, { date: "Jul 2", hours: "8 h 25 m" }, { date: "Jul 3", hours: "9 h 0 m" }, { date: "Jul 4", hours: "7 h 42 m" }, { date: "Jul 5", hours: "8 h 25 m" }, { date: "Jul 6", hours: "10 h 49 m" }, { date: "Jul 7", hours: "-" } ] },
-      week2: { total: "52 h 29 m", days: [ { date: "Jul 8", hours: "9 h 0 m" }, { date: "Jul 9", hours: "10 h 24 m" }, { date: "Jul 10", hours: "8 h 15 m" }, { date: "Jul 11", hours: "8 h 25 m" }, { date: "Jul 12", hours: "8 h 25 m" }, { date: "Jul 13", hours: "8 h 0 m" }, { date: "Jul 14", hours: "-" } ] },
+      totalHours: "113 h 20 m",
+      week1: { total: "60 h 51 m", days: [ { date: "Jun 16", hours: "8 h 15 m" }, { date: "Jun 17", hours: "8 h 25 m" }, { date: "Jun 18", hours: "9 h 0 m" }, { date: "Jun 19", hours: "7 h 42 m" }, { date: "Jun 20", hours: "8 h 25 m" }, { date: "Jun 21", hours: "7 h 42 m" }, { date: "Jun 22", hours: "11 h 22 m" } ] },
+      week2: { total: "52 h 29 m", days: [ { date: "Jun 23", hours: "9 h 0 m" }, { date: "Jun 24", hours: "10 h 24 m" }, { date: "Jun 25", hours: "8 h 15 m" }, { date: "Jun 26", hours: "8 h 25 m" }, { date: "Jun 27", hours: "8 h 25 m" }, { date: "Jun 28", hours: "8 h 0 m" }, { date: "Jun 29", hours: "-" } ] },
     },
     monthlyTimesheet: {
-      "2025-07-01": "8h 15m", "2025-07-02": "8h 25m", "2025-07-03": "9h 0m", "2025-07-04": "7h 42m", "2025-07-05": "8h 25m",
-      "2025-07-07": "7h 42m", "2025-07-08": "9h 0m", "2025-07-09": "10h 24m", "2025-07-10": "8h 15m", "2025-07-11": "8h 25m",
-      "2025-07-14": "7h 42m", "2025-07-15": "8h 25m", "2025-07-16": "9h 0m", "2025-07-17": "8h 15m", "2025-07-18": "10h 24m",
-      "2025-07-21": "7h 42m", "2025-07-22": "8h 25m", "2025-07-23": "9h 0m", "2025-07-24": "8h 15m", "2025-07-25": "10h 24m",
-      "2025-07-28": "7h 42m", "2025-07-29": "8h 25m", "2025-07-30": "9h 0m", "2025-07-31": "8h 15m",
+      "2025-06-02": "7h 42m", "2025-06-03": "8h 25m", "2025-06-04": "9h 0m", "2025-06-05": "8h 15m", "2025-06-06": "10h 24m", "2025-06-09": "7h 42m", "2025-06-10": "8h 25m", "2025-06-11": "9h 0m", "2025-06-12": "8h 15m", "2025-06-13": "10h 24m", "2025-06-16": "7h 42m", "2025-06-17": "8h 25m", "2025-06-18": "9h 0m", "2025-06-19": "8h 15m", "2025-06-20": "10h 24m", "2025-06-23": "7h 42m", "2025-06-24": "8h 25m", "2025-06-25": "9h 0m", "2025-06-26": "8h 15m", "2025-06-27": "10h 24m", "2025-06-30": "7h 42m",
     }
   },
   {
@@ -49,15 +45,13 @@ export const membersData = [
     ],
     biWeeklyTimesheet: {
       totalHours: "80 h 0 m",
-      week1: { total: "40 h 0 m", days: [ { date: "Jul 1", hours: "8 h 0 m" }, { date: "Jul 2", hours: "8 h 0 m" }, { date: "Jul 3", hours: "8 h 0 m" }, { date: "Jul 4", hours: "8 h 0 m" }, { date: "Jul 5", hours: "8 h 0 m" }, { date: "Jul 6", hours: "-" }, { date: "Jul 7", hours: "-" } ] },
-      week2: { total: "40 h 0 m", days: [ { date: "Jul 8", hours: "8 h 0 m" }, { date: "Jul 9", hours: "8 h 0 m" }, { date: "Jul 10", hours: "8 h 0 m" }, { date: "Jul 11", hours: "8 h 0 m" }, { date: "Jul 12", hours: "8 h 0 m" }, { date: "Jul 13", hours: "-" }, { date: "Jul 14", hours: "-" } ] },
+      week1: { total: "40 h 0 m", days: [ { date: "Jun 16", hours: "8 h 0 m" }, { date: "Jun 17", hours: "8 h 0 m" }, { date: "Jun 18", hours: "8 h 0 m" }, { date: "Jun 19", hours: "8 h 0 m" }, { date: "Jun 20", hours: "8 h 0 m" }, { date: "Jun 21", hours: "-" }, { date: "Jun 22", hours: "-" } ] },
+      week2: { total: "40 h 0 m", days: [ { date: "Jun 23", hours: "8 h 0 m" }, { date: "Jun 24", hours: "8 h 0 m" }, { date: "Jun 25", hours: "8 h 0 m" }, { date: "Jun 26", hours: "8 h 0 m" }, { date: "Jun 27", hours: "8 h 0 m" }, { date: "Jun 28", hours: "-" }, { date: "Jun 29", hours: "-" } ] },
     },
     monthlyTimesheet: {
-        "2025-07-01": "8h 0m", "2025-07-02": "8h 0m", "2025-07-03": "8h 0m", "2025-07-04": "8h 0m", "2025-07-07": "8h 0m",
-        "2025-07-08": "8h 0m", "2025-07-09": "8h 0m", "2025-07-10": "8h 0m", "2025-07-11": "8h 0m", "2025-07-14": "8h 0m",
-        "2025-07-15": "8h 0m", "2025-07-16": "8h 0m", "2025-07-17": "8h 0m", "2025-07-18": "8h 0m", "2025-07-21": "8h 0m",
-        "2025-07-22": "8h 0m", "2025-07-23": "8h 0m", "2025-07-24": "8h 0m", "2025-07-25": "8h 0m", "2025-07-28": "8h 0m",
-        "2025-07-29": "8h 0m", "2025-07-30": "8h 0m", "2025-07-31": "8h 0m",
+        "2025-06-02": "8h 0m", "2025-06-03": "8h 0m", "2025-06-04": "8h 0m", "2025-06-05": "8h 0m", "2025-06-06": "8h 0m", 
+        "2025-06-09": "8h 0m", "2025-06-10": "8h 0m", "2025-06-11": "8h 0m", "2025-06-12": "8h 0m", "2025-06-13": "8h 0m",
+        "2025-06-16": "8h 0m", "2025-06-17": "8h 0m", "2025-06-18": "8h 0m", "2025-06-19": "8h 0m", "2025-06-20": "8h 0m",
     }
   },
   {
@@ -70,68 +64,16 @@ export const membersData = [
     overtimeRate: 80,
     totalTime: "8h 0m",
     timeEntries: [],
-    biWeeklyTimesheet: {
-        totalHours: "90 h 45 m",
-        week1: { total: "45 h 30 m", days: [ { date: "Jul 1", hours: "9 h 15m" }, { date: "Jul 2", hours: "9h 0m" }, { date: "Jul 3", hours: "8h 45m" }, { date: "Jul 4", hours: "9h 30m" }, { date: "Jul 5", hours: "8h 0m" }, { date: "Jul 6", hours: "-" }, { date: "Jul 7", hours: "-" } ] },
-        week2: { total: "45 h 15 m", days: [ { date: "Jul 8", hours: "9h 0m" }, { date: "Jul 9", hours: "9h 0m" }, { date: "Jul 10", hours: "9h 0m" }, { date: "Jul 11", hours: "9h 15m" }, { date: "Jul 12", hours: "9h 0m" }, { date: "Jul 13", hours: "-" }, { date: "Jul 14", hours: "-" } ] },
-    },
+    biWeeklyTimesheet: null,
     monthlyTimesheet: {
-        "2025-07-01": "9h 15m", "2025-07-02": "9h 0m", "2025-07-03": "8h 45m", "2025-07-04": "9h 30m", "2025-07-07": "9h 0m",
-        "2025-07-08": "9h 0m", "2025-07-09": "9h 0m", "2025-07-10": "9h 0m", "2025-07-11": "9h 15m", "2025-07-14": "8h 45m",
-        "2025-07-15": "9h 0m", "2025-07-16": "9h 30m", "2025-07-17": "9h 0m", "2025-07-18": "9h 0m", "2025-07-21": "9h 15m",
-        "2025-07-22": "8h 45m", "2025-07-23": "9h 0m", "2025-07-24": "9h 30m", "2025-07-25": "9h 0m", "2025-07-28": "9h 0m",
-        "2025-07-29": "9h 15m", "2025-07-30": "8h 45m", "2025-07-31": "9h 0m",
+        "2025-07-01": "9h 15m", "2025-07-02": "9h 0m", "2025-07-03": "8h 45m", "2025-07-04": "9h 30m",
+        "2025-07-07": "9h 0m", "2025-07-08": "9h 0m", "2025-07-09": "9h 0m", "2025-07-10": "9h 0m",
     }
   },
-  { 
-    id: 4, 
-    name: "Laura Palmer", 
-    avatarUrl: lauraPalmerImg, 
-    title: "QA Engineer", 
-    managerName: "Elon Musk", 
-    hourlyRate: 40, 
-    overtimeRate: 60, 
-    totalTime: "7h 30m", 
-    timeEntries: [], 
-    biWeeklyTimesheet: {
-        totalHours: "75 h 0 m",
-        week1: { total: "37 h 30 m", days: [ { date: "Jul 1", hours: "7h 30m" }, { date: "Jul 2", hours: "7h 30m" }, { date: "Jul 3", hours: "7h 30m" }, { date: "Jul 4", hours: "7h 30m" }, { date: "Jul 5", hours: "7h 30m" }, { date: "Jul 6", hours: "-" }, { date: "Jul 7", hours: "-" } ] },
-        week2: { total: "37 h 30 m", days: [ { date: "Jul 8", hours: "7h 30m" }, { date: "Jul 9", hours: "7h 30m" }, { date: "Jul 10", hours: "7h 30m" }, { date: "Jul 11", hours: "7h 30m" }, { date: "Jul 12", hours: "7h 30m" }, { date: "Jul 13", hours: "-" }, { date: "Jul 14", hours: "-" } ] },
-    },
-    monthlyTimesheet: {
-        "2025-07-01": "7h 30m", "2025-07-02": "7h 30m", "2025-07-03": "7h 30m", "2025-07-04": "7h 30m", "2025-07-07": "7h 30m",
-        "2025-07-08": "7h 30m", "2025-07-09": "7h 30m", "2025-07-10": "7h 30m", "2025-07-11": "7h 30m", "2025-07-14": "7h 30m",
-        "2025-07-15": "7h 30m", "2025-07-16": "7h 30m", "2025-07-17": "7h 30m", "2025-07-18": "7h 30m", "2025-07-21": "7h 30m",
-        "2025-07-22": "7h 30m", "2025-07-23": "7h 30m", "2025-07-24": "7h 30m", "2025-07-25": "7h 30m", "2025-07-28": "7h 30m",
-        "2025-07-29": "7h 30m", "2025-07-30": "7h 30m", "2025-07-31": "7h 30m",
-    }
-  },
-  { 
-    id: 5, 
-    name: "Dale Cooper", 
-    avatarUrl: daleCooperImg, 
-    title: "DevOps Specialist", 
-    managerName: "Elon Musk", 
-    hourlyRate: 60, 
-    overtimeRate: 90, 
-    totalTime: "8h 0m", 
-    timeEntries: [], 
-    biWeeklyTimesheet: null, 
-    monthlyTimesheet: {} 
-  },
-  { 
-    id: 6, 
-    name: "Audrey Horne", 
-    avatarUrl: audreyHorneImg, 
-    title: "Project Manager", 
-    managerName: "Elon Musk", 
-    hourlyRate: 65, 
-    overtimeRate: 95, 
-    totalTime: "7h 15m", 
-    timeEntries: [], 
-    biWeeklyTimesheet: null, 
-    monthlyTimesheet: {} 
-  }
+
+  { id: 4, name: "Laura Palmer", avatarUrl: lauraPalmerImg, title: "QA Engineer", managerName: "Elon Musk", hourlyRate: 40, overtimeRate: 60, totalTime: "7h 30m", timeEntries: [], biWeeklyTimesheet: null, monthlyTimesheet: null },
+  { id: 5, name: "Dale Cooper", avatarUrl: daleCooperImg, title: "DevOps Specialist", managerName: "Elon Musk", hourlyRate: 60, overtimeRate: 90, totalTime: "8h 0m", timeEntries: [], biWeeklyTimesheet: null, monthlyTimesheet: null },
+  { id: 6, name: "Audrey Horne", avatarUrl: audreyHorneImg, title: "Project Manager", managerName: "Elon Musk", hourlyRate: 65, overtimeRate: 95, totalTime: "7h 15m", timeEntries: [], biWeeklyTimesheet: null, monthlyTimesheet: null }
 ];
 
 export const projectsData = [

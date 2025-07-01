@@ -1,5 +1,4 @@
 {
-  "homepage": "https://UMESHCHANDRA2762.github.io/Employee-timesheet",
   "name": "timesheet",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "bootstrap": "^5.3.7",
@@ -18,6 +17,7 @@
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "react": "^19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-datepicker": "^8.4.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",

@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -56,7 +57,6 @@ const WeeklyTimesheet = () => {
     const [selectedProjectId, setSelectedProjectId] = useState("");
     const [selectedTaskId, setSelectedTaskId] = useState("");
     const [selectedOrganizationId, setSelectedOrganizationId] = useState("org-1");
-    // Set initial date to the start of the current week
     const [startDate, setStartDate] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
     const [endDate, setEndDate] = useState(endOfWeek(new Date(), { weekStartsOn: 1 }));
     const [showManualTimeModal, setShowManualTimeModal] = useState(false);
@@ -82,36 +82,32 @@ const WeeklyTimesheet = () => {
         let grandTotal = 0;
         const processedData = filteredMembers.map(member => {
             const dailyTotals = {};
-            let memberTotalMinutes = 0;
-
             weekDays.forEach(day => {
-                const dateKey = format(day, 'yyyy-MM-dd');
-                let workedMins = 0;
-
-                // Check for time entry in the member's monthly timesheet data
-                if (member.monthlyTimesheet && member.monthlyTimesheet[dateKey]) {
-                    workedMins = timeToMinutes(member.monthlyTimesheet[dateKey]);
-                }
-                
-                dailyTotals[dateKey] = {
-                    workedMinutes: workedMins,
-                    regularMinutes: workedMins, // Assuming all worked time is regular for this summary
-                    overtimeMinutes: 0
-                };
-                memberTotalMinutes += workedMins;
+                dailyTotals[format(day, 'yyyy-MM-dd')] = { workedMinutes: 0, regularMinutes: 0, overtimeMinutes: 0 };
             });
+            
+            if (member.timeEntries && member.timeEntries.length > 0) {
+                 const firstEntryTotalMinutes = timeToMinutes(member.timeEntries[0].total);
+                 const randomDay = weekDays[Math.floor(Math.random() * weekDays.length)];
+                 const formattedRandomDay = format(randomDay, 'yyyy-MM-dd');
+                 dailyTotals[formattedRandomDay].workedMinutes += firstEntryTotalMinutes;
+                 dailyTotals[formattedRandomDay].regularMinutes += firstEntryTotalMinutes;
+            }
+            const memberTotalMinutes = timeToMinutes(member.totalTime);
 
             grandTotal += memberTotalMinutes;
             
             const formattedDailyTotals = {};
             for (const dateKey in dailyTotals) {
-                const { workedMinutes, regularMinutes, overtimeMinutes } = dailyTotals[dateKey];
+                const workedMins = dailyTotals[dateKey].workedMinutes;
+                const regularMins = dailyTotals[dateKey].regularMinutes;
+                const overtimeMins = dailyTotals[dateKey].overtimeMinutes;
 
                 formattedDailyTotals[dateKey] = {
-                    worked: workedMinutes > 0 ? minutesToHoursMinutes(workedMinutes) : "-",
-                    regular: regularMinutes > 0 ? minutesToDecimalHours(regularMinutes) : "0",
-                    overtime: overtimeMinutes > 0 ? minutesToDecimalHours(overtimeMinutes) : "0",
-                    totalDecimal: workedMinutes > 0 ? minutesToDecimalHours(workedMinutes) : "0"
+                    worked: workedMins > 0 ? minutesToHoursMinutes(workedMins) : "-",
+                    regular: regularMins > 0 ? minutesToDecimalHours(regularMins) : "0",
+                    overtime: overtimeMins > 0 ? minutesToDecimalHours(overtimeMins) : "0",
+                    totalDecimal: workedMins > 0 ? minutesToDecimalHours(workedMins) : "0"
                 };
             }
             return { ...member, dailyTotals, formattedDailyTotals, totalMinutesWeekly: memberTotalMinutes };
@@ -188,19 +184,19 @@ const WeeklyTimesheet = () => {
 
             {isMobile ? (
                  <div className="mobile-summary-list">
-                      {weeklyData.map(member => (
-                          <div key={member.id} className="mobile-member-card">
-                              <div className="mobile-member-info">
-                                  <img src={member.avatarUrl} alt={member.name} className="member-avatar" />
-                                  <span>{member.name}</span>
-                              </div>
-                              <div className="mobile-member-total">
-                                  <div className="worked-time-tag">{minutesToHoursMinutes(member.totalMinutesWeekly) === "0h 0m" ? "-" : minutesToHoursMinutes(member.totalMinutesWeekly)}</div>
-                                  <span className="total-label">Total Hours</span>
-                              </div>
-                          </div>
-                      ))}
-                 </div>
+                    {weeklyData.map(member => (
+                        <div key={member.id} className="mobile-member-card">
+                            <div className="mobile-member-info">
+                                <img src={member.avatarUrl} alt={member.name} className="member-avatar" />
+                                <span>{member.name}</span>
+                            </div>
+                            <div className="mobile-member-total">
+                                <div className="worked-time-tag">{minutesToHoursMinutes(member.totalMinutesWeekly) === "0h 0m" ? "-" : minutesToHoursMinutes(member.totalMinutesWeekly)}</div>
+                                <span className="total-label">Total Hours</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             ) : (
                 <div className="timesheet-grid-wrapper">
                     <div className="timesheet-grid">
