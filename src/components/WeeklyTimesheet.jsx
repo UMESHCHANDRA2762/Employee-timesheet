@@ -56,9 +56,9 @@ const WeeklyTimesheet = () => {
     const [selectedProjectId, setSelectedProjectId] = useState("");
     const [selectedTaskId, setSelectedTaskId] = useState("");
     const [selectedOrganizationId, setSelectedOrganizationId] = useState("org-1");
-    // Set initial date to a date where there is data
-    const [startDate, setStartDate] = useState(startOfWeek(new Date("2025-06-23"), { weekStartsOn: 1 }));
-    const [endDate, setEndDate] = useState(endOfWeek(new Date("2025-06-23"), { weekStartsOn: 1 }));
+    // Set initial date to the start of the current week
+    const [startDate, setStartDate] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
+    const [endDate, setEndDate] = useState(endOfWeek(new Date(), { weekStartsOn: 1 }));
     const [showManualTimeModal, setShowManualTimeModal] = useState(false);
 
     const handleCloseModal = () => setShowManualTimeModal(false);
@@ -188,18 +188,18 @@ const WeeklyTimesheet = () => {
 
             {isMobile ? (
                  <div className="mobile-summary-list">
-                     {weeklyData.map(member => (
-                         <div key={member.id} className="mobile-member-card">
-                             <div className="mobile-member-info">
-                                 <img src={member.avatarUrl} alt={member.name} className="member-avatar" />
-                                 <span>{member.name}</span>
-                             </div>
-                             <div className="mobile-member-total">
-                                 <div className="worked-time-tag">{minutesToHoursMinutes(member.totalMinutesWeekly) === "0h 0m" ? "-" : minutesToHoursMinutes(member.totalMinutesWeekly)}</div>
-                                 <span className="total-label">Total Hours</span>
-                             </div>
-                         </div>
-                     ))}
+                      {weeklyData.map(member => (
+                          <div key={member.id} className="mobile-member-card">
+                              <div className="mobile-member-info">
+                                  <img src={member.avatarUrl} alt={member.name} className="member-avatar" />
+                                  <span>{member.name}</span>
+                              </div>
+                              <div className="mobile-member-total">
+                                  <div className="worked-time-tag">{minutesToHoursMinutes(member.totalMinutesWeekly) === "0h 0m" ? "-" : minutesToHoursMinutes(member.totalMinutesWeekly)}</div>
+                                  <span className="total-label">Total Hours</span>
+                              </div>
+                          </div>
+                      ))}
                  </div>
             ) : (
                 <div className="timesheet-grid-wrapper">
